@@ -41,3 +41,36 @@ input, select {
   border: none;
   cursor: pointer;
 }
+.score-card {
+  background: #f5f7fa;
+  padding: 20px;
+  border-radius: 10px;
+  margin-top: 20px;
+}
+.risk-meter {
+  margin: 20px auto;
+  padding: 15px;
+  width: 200px;
+  border-radius: 30px;
+  font-size: 20px;
+  font-weight: bold;
+  text-align: center;
+  color: white;
+}
+
+.low {
+  background: #2e7d32;
+}
+
+.medium {
+  background: #f9a825;
+}
+
+.high {
+  background: #c62828;
+}
+.insight {
+  margin-top: 10px;
+  font-style: italic;
+  opacity: 0.9;
+}

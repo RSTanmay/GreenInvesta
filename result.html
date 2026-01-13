@@ -5,6 +5,7 @@
   <title>Result</title>
   <link rel="stylesheet" href="css/style.css">
 </head>
+
 <body>
   <div class="container">
     <h2>Investment Verdict</h2>
@@ -14,21 +15,70 @@
     <h3>Key Reasons</h3>
     <ul id="reasons"></ul>
 
+    <h2>Risk Meter</h2>
+    <div class="risk-meter">
+      <span id="riskLevel"></span>
+    </div>
+
+    <p class="insight">
+      This stock fits a <strong id="profile"></strong> investor profile.
+    </p>
+
+    <!-- SCORE BREAKDOWN -->
+    <h2>Score Breakdown</h2>
+    <div class="score-card">
+      <p>Valuation: <span id="valScore"></span>/25</p>
+      <p>Growth: <span id="growthScore"></span>/25</p>
+      <p>Profitability: <span id="profitScore"></span>/25</p>
+      <p>Financial Health: <span id="healthScore"></span>/25</p>
+      <h3>Total Score: <span id="totalScore"></span>/100</h3>
+    </div>
+
     <a href="analyze.html" class="btn">Analyze Another Stock</a>
   </div>
 
   <script>
-    document.getElementById("verdict").innerText = localStorage.getItem("verdict");
-    document.getElementById("score").innerText = localStorage.getItem("score");
+    // Verdict & score
+    document.getElementById("verdict").innerText =
+      localStorage.getItem("verdict") || "";
+    document.getElementById("score").innerText =
+      localStorage.getItem("score") || "0";
 
-    const reasons = JSON.parse(localStorage.getItem("reasons"));
+    // Reasons
+    const reasons = JSON.parse(localStorage.getItem("reasons")) || [];
     const ul = document.getElementById("reasons");
-
     reasons.forEach(r => {
       const li = document.createElement("li");
       li.innerText = r;
       ul.appendChild(li);
     });
+
+    // Score breakdown
+    const breakdown = JSON.parse(localStorage.getItem("breakdown"));
+    if (breakdown) {
+      document.getElementById("valScore").innerText = breakdown.valuation;
+      document.getElementById("growthScore").innerText = breakdown.growth;
+      document.getElementById("profitScore").innerText = breakdown.profitability;
+      document.getElementById("healthScore").innerText = breakdown.health;
+      document.getElementById("totalScore").innerText = breakdown.total;
+    }
+
+    // Risk meter
+    const risk = localStorage.getItem("risk") || "Medium";
+    const riskEl = document.getElementById("riskLevel");
+    const meter = document.querySelector(".risk-meter");
+
+    riskEl.innerText = risk + " Risk";
+    meter.classList.add(risk.toLowerCase());
+
+    // Investor profile
+    const profileMap = {
+      "Low": "long-term conservative",
+      "Medium": "balanced",
+      "High": "high-risk aggressive"
+    };
+
+    document.getElementById("profile").innerText = profileMap[risk];
   </script>
 </body>
 </html>

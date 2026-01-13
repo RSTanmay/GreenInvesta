@@ -10,6 +10,24 @@ document.getElementById("stockForm").addEventListener("submit", function (e) {
 
   let score = 0;
   let reasons = [];
+const breakdown = calculateScore({
+  peg,
+  growth,
+  roce,
+  debt
+});
+let risk = "High";
+
+if (debt < 0.5 && growth > 12 && fcf === "yes") {
+  risk = "Low";
+} else if (debt < 1 && growth > 8) {
+  risk = "Medium";
+}
+
+localStorage.setItem("risk", risk);
+
+
+localStorage.setItem("breakdown", JSON.stringify(breakdown));
 
   // PEG
   if (peg < 1) { score += 20; reasons.push("Attractive valuation (PEG < 1)"); }
@@ -43,6 +61,8 @@ document.getElementById("stockForm").addEventListener("submit", function (e) {
   let verdict = "AVOID";
   if (score >= 80) verdict = "INVEST";
   else if (score >= 60) verdict = "HOLD";
+  
+
 
   localStorage.setItem("score", score);
   localStorage.setItem("verdict", verdict);
@@ -50,3 +70,39 @@ document.getElementById("stockForm").addEventListener("submit", function (e) {
 
   window.location.href = "result.html";
 });
+function calculateScore(inputs) {
+  let valuation = 0;
+  let growthScore = 0;
+  let profitability = 0;
+  let health = 0;
+
+  // Valuation (PEG)
+  if (inputs.peg < 1) valuation = 25;
+  else if (inputs.peg < 1.5) valuation = 15;
+  else valuation = 5;
+
+  // Growth
+  if (inputs.growth > 15) growthScore = 25;
+  else if (inputs.growth > 10) growthScore = 15;
+  else growthScore = 5;
+
+  // Profitability (ROCE)
+  if (inputs.roce > 20) profitability = 25;
+  else if (inputs.roce > 15) profitability = 15;
+  else profitability = 5;
+
+  // Financial Health (Debt)
+  if (inputs.debt < 0.5) health = 25;
+  else if (inputs.debt < 1) health = 15;
+  else health = 5;
+
+  return {
+    valuation,
+    growth: growthScore,
+    profitability,
+    health,
+    total: valuation + growthScore + profitability + health
+  };
+}
+
+
