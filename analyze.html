@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Analyze Stock</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div class="container">
+    <h2>Stock Analysis</h2>
+
+    <form id="stockForm">
+      <label>PEG Ratio</label>
+      <input type="number" step="0.01" id="peg" required>
+
+      <label>ROCE (%)</label>
+      <input type="number" step="0.1" id="roce" required>
+
+      <label>Revenue Growth (%)</label>
+      <input type="number" step="0.1" id="growth" required>
+
+      <label>Debt to Equity</label>
+      <input type="number" step="0.01" id="debt" required>
+
+      <label>Free Cash Flow</label>
+      <select id="fcf">
+        <option value="yes">Positive</option>
+        <option value="no">Negative</option>
+      </select>
+
+      <label>Promoter Holding (%)</label>
+      <input type="number" step="0.1" id="promoter" required>
+
+      <button type="submit" class="btn">Get Verdict</button>
+    </form>
+  </div>
+
+  <script src="js/logic.js"></script>
+</body>
+</html>
